@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Tapestry&display=swap');
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.error {
+  font-size: 13px;
+  font-weight: 600;
+  color: red;
+  margin-left: 10px;
+  background-color: #FEFBE7;
+  border: black;
+  border-radius: 5px;
+  display: none;
+}

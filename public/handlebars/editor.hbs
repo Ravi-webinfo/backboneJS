@@ -1,0 +1,49 @@
+
+<form action="#" method="post" class="mt-4">
+  <div class="message"></div>
+  <div class="form-group">
+    <input type="text" name="title" class="form-control" id="title" placeholder="Enter blog title">
+    <span class="error error-title"></span>
+  </div>
+  <div class="form-group">
+    <textarea type="text" class="form-control" id="description" placeholder="Enter your blog description"></textarea>
+    <span class="error error-description"></span>
+  </div>
+  <div class="form-group">
+    <input type="file" class="form-control" id="image" placeholder="Select blog image">
+    <span class="error error-image"></span>
+  </div>
+  <div class="form-group">
+    <textarea id="summernote" placeholder="Enter your blog description" name="editordata" class="mt-2"></textarea>
+    <span class="error error-content"></span>
+  </div>
+  <button type="button" class="btn btn-success mt-2" id="submit">Create</button>
+</form>
+
+<script>
+  $('#summernote').summernote({
+    placeholder: 'Enter your blog content here...',
+    tabsize: 2,
+    height: 500,
+    callbacks: {
+      onImageUpload: function(files, editor, welEditable) {
+        console.log(files);
+        var formData = new FormData();
+        formData.append('ImageFile', files[0], files[0].name);
+        axios({
+          method: 'post',
+          url: 'http://localhost:3000/blogs/image-upload',
+          headers: {
+            "Content-Type": "multipart/formdata"
+          },
+          data: formData
+        }).then(function(response) {
+          var imageUrl = "/blog-images/"+response.data.fileName;
+          $('#summernote').summernote('insertImage', imageUrl);
+        }).catch(function(e) {
+          $('.message').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert">${e.response.data.message}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`);
+        })
+      }
+    }
+  });
+</script>
